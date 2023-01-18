@@ -13,6 +13,102 @@
                 3
             ],
             "stage": 2
+        },
+        {
+            "docList": [
+                11
+            ],
+            "stage": 3
+        },
+        {
+            "docList": [
+                4,
+                5,
+                12,
+                13
+            ],
+            "stage": 4
+        },
+        {
+            "docList": [
+                14
+            ],
+            "stage": 5
+        }
+    ],
+    "2": [
+        {
+            "docList": [
+                6,
+                7
+            ],
+            "stage": 1
+        },
+        {
+            "docList": [
+                8,
+                9
+            ],
+            "stage": 2
+        },
+        {
+            "docList": [
+                11
+            ],
+            "stage": 3
+        },
+        {
+            "docList": [
+                4,
+                5,
+                12,
+                13
+            ],
+            "stage": 4
+        },
+        {
+            "docList": [
+                15
+            ],
+            "stage": 5
+        }
+    ],
+    "3": [
+        {
+            "docList": [
+                6,
+                7
+            ],
+            "stage": 1
+        },
+        {
+            "docList": [
+                8,
+                9
+            ],
+            "stage": 2
+        },
+        {
+            "docList": [
+                11
+            ],
+            "stage": 3
+        },
+        {
+            "docList": [
+                4,
+                5,
+                12,
+                13,
+                10
+            ],
+            "stage": 4
+        },
+        {
+            "docList": [
+                16
+            ],
+            "stage": 5
         }
     ]
 }
