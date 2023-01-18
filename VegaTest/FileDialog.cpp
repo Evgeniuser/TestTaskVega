@@ -29,16 +29,16 @@ void FileDialog::initUi(QWidget* parent)
 {
 	setWindowFlag(Qt::WindowCloseButtonHint, false);
 	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
-	QLabel* devLable = new QLabel(QString::fromUtf8("Óñòðîéñòâà:"), parent);
+	QLabel* devLable = new QLabel(QString::fromUtf8("Ð£ÑÑ‚Ñ€Ð¾Ð¹ÑÑ‚Ð²Ð°:"), parent);
 	devLable->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
 	m_deviceName = new QLineEdit(parent);
 	m_deviceName->setDisabled(true);
 	m_stageName = new QLineEdit(parent);
 	m_stageName->setDisabled(true);
-	QLabel* fpLable = new QLabel(QString::fromUtf8("Ïóòü ê ôàéëó:"), parent);
+	QLabel* fpLable = new QLabel(QString::fromUtf8("ÐŸÑƒÑ‚ÑŒ Ðº Ñ„Ð°Ð¹Ð»Ñƒ:"), parent);
 	fpLable->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred));
 	m_filePath = new QLineEdit(parent);
-	QLabel* fnLable = new QLabel(QString::fromUtf8("Èìÿ ôàéëà"), parent);
+	QLabel* fnLable = new QLabel(QString::fromUtf8("Ð˜Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð°"), parent);
 	fnLable->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred));
 	m_fileName = new QLineEdit(parent);
 	QLabel* divLine = new QLabel("<hr></hr>", parent);
@@ -52,7 +52,7 @@ void FileDialog::initUi(QWidget* parent)
 	auto nameLayout = new QHBoxLayout();
 	nameLayout->addWidget(devLable);
 	nameLayout->addWidget(m_deviceName);
-	nameLayout->addWidget(new QLabel(QString::fromUtf8("Èìÿ îïåðàöèè:")));
+	nameLayout->addWidget(new QLabel(QString::fromUtf8("Ð˜Ð¼Ñ Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ð¸:")));
 	nameLayout->addWidget(m_stageName);
 
 	auto mainLayout = new QGridLayout();
@@ -69,7 +69,7 @@ void FileDialog::initUi(QWidget* parent)
 
 	connect(m_selectFile, &QPushButton::clicked, this, [this]()
 		{
-			QString filePath = QFileDialog::getOpenFileName(this, QString::fromUtf8("Âûáåðèòå ôàéë"));
+			QString filePath = QFileDialog::getOpenFileName(this, QString::fromUtf8("Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ñ„Ð°Ð¹Ð»"));
 	m_filePath->setText(filePath);
 	QFileInfo fl(filePath);
 	m_fileName->setText(fl.baseName());

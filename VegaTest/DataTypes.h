@@ -102,7 +102,8 @@ public:
 	void addDoc(const int stageId, const int docId)
 	{
 		auto lst = m_stgDocList[stageId];
-		lst.append(docId);
+		if(!lst.contains(docId))
+			lst.append(docId);
 		m_stgDocList[stageId] = lst;
 	}
 	void removeDoc(const int stageId, const int docId)

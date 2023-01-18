@@ -6,6 +6,12 @@
         "id": 0
     },
     {
+        "docName": "DataProcessor",
+        "docPath": "I:/PetProject/VegaTest/VegaTest/DataProcessor.cpp",
+        "docType": 1,
+        "id": 1
+    },
+    {
         "docName": "Документ 1",
         "docPath": "",
         "docType": 1,
@@ -256,5 +262,17 @@
         "docPath": "I:/PetProject/VegaTest/VegaTest/conf/param.conf",
         "docType": 1,
         "id": 43
+    },
+    {
+        "docName": "CoreApp",
+        "docPath": "I:/PetProject/VegaTest/VegaTest/CoreApp.cpp",
+        "docType": 1,
+        "id": 44
+    },
+    {
+        "docName": "DataReader",
+        "docPath": "I:/PetProject/VegaTest/VegaTest/DataReader.cpp",
+        "docType": 2,
+        "id": 45
     }
 ]
