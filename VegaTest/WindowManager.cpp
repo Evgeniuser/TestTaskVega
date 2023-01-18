@@ -27,12 +27,16 @@ WindowManager::~WindowManager()
 void WindowManager::CreateMenu()
 {
 	
-	m_menuBar->addAction(QString::fromUtf8("Параметры"), this, [this]()
+	auto settingAct = new QAction(QString::fromUtf8("Параметры"), this);
+	connect(settingAct, &QAction::triggered, this, [this]()
 		{
 			SettingsDialog dlg(this);
-			dlg.exec();
+	dlg.exec();
 		});
-	m_menuBar->addAction(QString::fromUtf8("О Qt"),&CoreApp::aboutQt);
-	m_menuBar->addAction(QString::fromUtf8("Выход"), &CoreApp::quit);
+	m_menuBar->addAction(settingAct);
+	auto aboutAct = new QAction(QString::fromUtf8("О Qt"), this);
+	connect(aboutAct, &QAction::triggered, this, &CoreApp::aboutQt);
+	m_menuBar->addAction(aboutAct);
+
 }
 
