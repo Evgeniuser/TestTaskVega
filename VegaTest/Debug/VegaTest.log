@@ -1,9 +1,3 @@
-﻿  CentralWindow.cpp
-  CoreApp.cpp
-  DataProcessor.cpp
-  DataStorage.cpp
-  WindowManager.cpp
-  main.cpp
-  moc_CoreApp.cpp
+﻿  SettingsDialog.cpp
   VegaTest.vcxproj -> I:\PetProject\VegaTest\Debug\VegaTest.exe
   VegaTest.vcxproj -> I:\PetProject\VegaTest\Debug\VegaTest.pdb (Full PDB)

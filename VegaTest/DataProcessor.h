@@ -15,7 +15,7 @@ public:
 
 	bool loadData();
 	void initModels();
-	void fillStageModel(const int& devId) const;
+	void updateStageModel(const int& devId) const;
 	void updateDocModel(const int& devId, const int& stageNum) const;
 
 	void addDoc(int devId, int stageNum, int typeDoc, QString docName, QString docPath);

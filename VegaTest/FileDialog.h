@@ -12,8 +12,8 @@ class FileDialog : public QDialog
     Q_OBJECT
 
 public:
-    FileDialog(QString dlgName, QString devName, QString stageName, QWidget* parent = nullptr);
-    FileDialog(QString dlgName, QString devName, QString stageName, QString fileName, QString filePath, QWidget* parent = nullptr);
+    FileDialog(int flType, QString dlgName, QString devName, QString stageName, QWidget* parent = nullptr);
+    FileDialog(int flType, QString dlgName, QString devName, QString stageName, QString fileName, QString filePath, QWidget* parent = nullptr);
     QVariantList getData() const;
 private:
     void initUi(QWidget* parents);
@@ -26,4 +26,6 @@ private:
     QPushButton* m_Ok;
     QPushButton* m_cancel;
     QDialogButtonBox* m_buttonBox;
+
+    int m_flType = 0;
 };

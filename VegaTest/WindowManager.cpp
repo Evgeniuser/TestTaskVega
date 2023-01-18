@@ -1,5 +1,5 @@
 #include "WindowManager.h"
-
+#include "SettingsDialog.h"
 #include "CoreApp.h"
 
 class CoreApp;
@@ -26,5 +26,13 @@ WindowManager::~WindowManager()
 
 void WindowManager::CreateMenu()
 {
+	
+	m_menuBar->addAction(QString::fromUtf8("Параметры"), this, [this]()
+		{
+			SettingsDialog dlg(this);
+			dlg.exec();
+		});
+	m_menuBar->addAction(QString::fromUtf8("О Qt"),&CoreApp::aboutQt);
+	m_menuBar->addAction(QString::fromUtf8("Выход"), &CoreApp::quit);
 }
 

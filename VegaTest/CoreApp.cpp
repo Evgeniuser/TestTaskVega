@@ -12,6 +12,7 @@ CoreApp::CoreApp(int& argc, char** argv) : QApplication(argc, argv)
 
 CoreApp::~CoreApp()
 {
+	saveParam();
 	delete m_mainWindow;
 	delete m_dataController;
 }
@@ -37,12 +38,31 @@ void CoreApp::loadParam()
 	m_docFilePath = Settings.value("docsFile").toString();
 	m_stageFilePath = Settings.value("stageFile").toString();
 	Settings.endGroup();
+	Settings.beginGroup("FilterParam");
+	m_manualFltr = Settings.value("manualFilter").toString();
+	m_firmwareFltr = Settings.value("FirmWareFilter").toString();
+	Settings.endGroup();
 #ifdef _MSC_VER
 	m_deviceFilePath = m_deviceFilePath.replace('\\', '/');
 	m_DDSFilePath = m_DDSFilePath.replace('\\', '/');
 	m_docFilePath = m_docFilePath.replace('\\', '/');
 	m_stageFilePath = m_stageFilePath.replace('\\', '/');
 #endif
+}
+
+void CoreApp::saveParam()
+{
+	QSettings Settings("param.ini", QSettings::IniFormat);
+	Settings.beginGroup("FilesPath");
+	Settings.setValue("deviceFile",m_deviceFilePath);
+	Settings.setValue("DDSFile",m_DDSFilePath);
+	Settings.setValue("docsFile",m_docFilePath);
+	Settings.setValue("stageFile",m_stageFilePath);
+	Settings.endGroup();
+	Settings.beginGroup("FilterParam");
+	Settings.setValue("manualFilter",m_manualFltr);
+	Settings.setValue("FirmWareFilter", m_firmwareFltr);
+	Settings.endGroup();
 }
 
 void CoreApp::writeParam(QWidget* w)

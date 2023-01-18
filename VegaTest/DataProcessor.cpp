@@ -117,7 +117,7 @@ QMap<int, QString> DataProcessor::getStageList(const int& id) const
 	return m_Storage.getStagesList(id);
 }
 
-void DataProcessor::fillStageModel(const int& devId) const
+void DataProcessor::updateStageModel(const int& devId) const
 {
 	m_StageModel->clear();
 	auto lst = getStageList(devId);

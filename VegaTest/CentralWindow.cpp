@@ -48,7 +48,7 @@ CentralWindow::CentralWindow(QWidget* parent)
 			auto devId = m_devName->currentData().toInt();
 			auto docType = m_opFlTabs->currentIndex() + 1;
 			auto stgNum = m_opList->model()->data(m_opList->currentIndex(), Qt::UserRole).toInt();
-			FileDialog dlg(QString::fromUtf8("Добавить файл"), m_devName->currentText(),
+			FileDialog dlg(docType,QString::fromUtf8("Добавить файл"), m_devName->currentText(),
 		m_opList->model()->data(m_opList->currentIndex()).toString(), this);
 			dlg.setModal(true);
 			if (dlg.exec() == QDialog::Accepted)
@@ -82,7 +82,7 @@ CentralWindow::CentralWindow(QWidget* parent)
 				QString docName, filePath;
 			   const auto docId = curList->model()->data(curList->currentIndex(), Qt::UserRole).toInt();
 			   CoreApp::app()->data()->getDocInfo(docId, docName, filePath);
-			   FileDialog dlg(QString::fromUtf8("Редактировать файл"), m_devName->currentText(),
+			   FileDialog dlg(m_opFlTabs->currentIndex() + 1,QString::fromUtf8("Редактировать файл"), m_devName->currentText(),
 			   m_opList->model()->data(m_opList->currentIndex()).toString(),docName,filePath, this);
 			   dlg.setModal(true);
 			   if (dlg.exec() == QDialog::Accepted)
@@ -118,7 +118,7 @@ void CentralWindow::fillDevicesList() const
 
 void CentralWindow::fillStageList() const
 {
-	CoreApp::app()->data()->fillStageModel(m_devName->currentData().toInt());
+	CoreApp::app()->data()->updateStageModel(m_devName->currentData().toInt());
 	if (!m_opList->currentIndex().isValid())
 		m_opList->setCurrentIndex(m_opList->model()->index(0, 0));	
 	auto _id = m_opList->model()->data(m_opList->currentIndex(), Qt::UserRole).toInt();	

@@ -101,11 +101,11 @@
     <ClCompile Include="DataStorage.cpp" />
     <ClCompile Include="Executor.cpp" />
     <ClCompile Include="FileDialog.cpp" />
+    <ClCompile Include="SettingsDialog.cpp" />
     <ClCompile Include="StageModel.cpp" />
     <ClCompile Include="Tags.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <QtRcc Include="vegatest.qrc" />
-    <QtUic Include="vegatest.ui" />
     <ClCompile Include="CoreApp.cpp" />
     <ClCompile Include="main.cpp" />
     <None Include="VegaTest.ico" />
@@ -129,6 +129,7 @@
     <ClInclude Include="Executor.h" />
     <QtMoc Include="StageModel.h" />
     <QtMoc Include="FileDialog.h" />
+    <ClInclude Include="SettingsDialog.h" />
     <ClInclude Include="Tags.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

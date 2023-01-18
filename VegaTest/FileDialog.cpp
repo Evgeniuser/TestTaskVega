@@ -2,8 +2,10 @@
 #include <QLayout>
 #include <QFileDialog>
 
-FileDialog::FileDialog(QString dlgName, QString devName, QString stageName, QWidget* parent)
-	: QDialog(parent)
+#include "CoreApp.h"
+
+FileDialog::FileDialog(int flType,QString dlgName, QString devName, QString stageName, QWidget* parent)
+	: QDialog(parent), m_flType(flType)
 {
 	setWindowTitle(dlgName);
 	initUi(this);
@@ -13,8 +15,8 @@ FileDialog::FileDialog(QString dlgName, QString devName, QString stageName, QWid
 	adjustSize();
 }
 
-FileDialog::FileDialog(QString dlgName, QString devName, QString stageName, QString fileName, QString filePath,
-	QWidget* parent) :QDialog(parent)
+FileDialog::FileDialog(int flType, QString dlgName, QString devName, QString stageName, QString fileName, QString filePath,
+	QWidget* parent) :QDialog(parent) ,m_flType(flType)
 {
 	setWindowTitle(dlgName);
 	initUi(this);
@@ -69,13 +71,12 @@ void FileDialog::initUi(QWidget* parent)
 
 	connect(m_selectFile, &QPushButton::clicked, this, [this]()
 		{
-			QString filePath = QFileDialog::getOpenFileName(this, QString::fromUtf8("Выберите файл"));
-	m_filePath->setText(filePath);
-	QFileInfo fl(filePath);
-	m_fileName->setText(fl.baseName());
+			auto filter = m_flType == 1 ? CoreApp::app()->manualFltr() : CoreApp::app()->firmwareFltr();
+			QString filePath = QFileDialog::getOpenFileName(this, QString::fromUtf8("Выберите файл"),QString(),filter);
+			m_filePath->setText(filePath);
+			QFileInfo fl(filePath);
+			m_fileName->setText(fl.baseName());
 		});
-	auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
-		| QDialogButtonBox::Cancel);
 
 	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
 	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
