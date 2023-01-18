@@ -24,8 +24,9 @@ public:
 	}
 	const int& id() const { return m_Id; }
 	bool isEmpty() const { return m_Id == -1; }
+	void setName(QString name) { m_Name = name; }
 private:
-	QString m_Name{};
+	QString m_Name;
 	int m_Id = -1;
 };
 
@@ -70,8 +71,8 @@ public:
 	Doc(int id, QString name, QString fileName, int docType) : Base(name, id), m_FilePath(fileName), m_DocType(docType) {}
 	const QString& filePath() const { return m_FilePath; }
 	const int& docType() const { return m_DocType; }
-	void setFilePath(const QString filePath) { m_FilePath = filePath; }
 	void setDocType(const int docType) { m_DocType = docType; }
+	void updateData(QString docName, QString filePath) { setName(docName); setFilePath(filePath); }
 	QJsonObject toJson() const
 	{
 		QJsonObject Object;
@@ -82,6 +83,8 @@ public:
 		return Object;
 	}
 private:
+	void setFilePath(const QString filePath) { m_FilePath = filePath; }
+
 	QString m_FilePath;
 	int m_DocType;
 };

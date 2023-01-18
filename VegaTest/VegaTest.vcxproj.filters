@@ -76,6 +76,9 @@
     <ClCompile Include="StageModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="CoreApp.h">
@@ -88,6 +91,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="StageModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="FileDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

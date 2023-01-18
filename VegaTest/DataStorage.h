@@ -24,6 +24,8 @@ public:
 	void addDevDoc(int devId, int stageNum, int docs);
 	void removeDoc(int idDev, int stageNum, int docId);
 	void updateDoc(int id, Doc doc);
+	void updateDoc(int id, QString docName, QString filePath);
+	void getDocInfo(const int& id, QString& docName, QString& filePath) const;
 	int getDocId() const { return m_freeId; }
 private:
 	DeviceMap m_Devices;

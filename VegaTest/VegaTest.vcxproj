@@ -100,6 +100,7 @@
     <ClCompile Include="DataReader.cpp" />
     <ClCompile Include="DataStorage.cpp" />
     <ClCompile Include="Executor.cpp" />
+    <ClCompile Include="FileDialog.cpp" />
     <ClCompile Include="StageModel.cpp" />
     <ClCompile Include="Tags.cpp" />
     <ClCompile Include="WindowManager.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="DataTypes.h" />
     <ClInclude Include="Executor.h" />
     <QtMoc Include="StageModel.h" />
+    <QtMoc Include="FileDialog.h" />
     <ClInclude Include="Tags.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

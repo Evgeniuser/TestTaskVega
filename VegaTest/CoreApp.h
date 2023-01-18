@@ -30,6 +30,7 @@ public:
 	CoreApp(CoreApp&& other) = delete;
 	CoreApp& operator=(const CoreApp& other) = delete;
 	CoreApp& operator=(CoreApp&& other) = delete;
+
 private:
 
 	void loadParam();

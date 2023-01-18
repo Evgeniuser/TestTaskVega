@@ -142,9 +142,9 @@ void DataProcessor::updateDocModel(const int& devId, const int& stageNum) const
 
 }
 
-void DataProcessor::addDoc(int devId, int stageNum, int docType, QString doc)
+void DataProcessor::addDoc(int devId, int stageNum, int docType, QString docName, QString docPath)
 {
-	Doc _doc = Doc(m_Storage.getDocId(), doc + QString::number(devId), "", docType);
+	Doc _doc = Doc(m_Storage.getDocId(), docName, docPath, docType);
 	m_Storage.addDoc(_doc.id(), _doc);
 	m_Storage.addDevDoc(devId, stageNum, _doc.id());
 	updateDocModel(devId, stageNum);
@@ -154,6 +154,18 @@ void DataProcessor::removeDoc(int idDev, int stageNum, int docId)
 {
 	m_Storage.removeDoc(idDev, stageNum, docId);
 	updateDocModel(idDev, stageNum);
+}
+
+void DataProcessor::editDoc(int devId, int stageNum, int docId, QString docName, QString filePath)
+{
+	m_Storage.updateDoc(docId, docName, filePath);
+	updateDocModel(devId, stageNum);
+	
+}
+
+void DataProcessor::getDocInfo(const int& id, QString& docName, QString& filePath) const
+{
+	m_Storage.getDocInfo(id, docName, filePath);
 }
 
 QPair<QJsonParseError, QJsonDocument> DataProcessor::openFile(const QString& fileName) const
@@ -169,21 +181,6 @@ QPair<QJsonParseError, QJsonDocument> DataProcessor::openFile(const QString& fil
 		return QPair<QJsonParseError, QJsonDocument>{error, doc};
 	}
 	return QPair<QJsonParseError, QJsonDocument>{QJsonParseError{}, QJsonDocument{}};
-}
-
-bool DataProcessor::saveDevice() const
-{
-	QFile File(CoreApp::app()->deviceFilePath());
-	File.open(QIODevice::ReadWrite);
-	QJsonObject obj;
-	QJsonArray arr;
-	for (auto& itm : getDeviceList()) arr.append(itm.toJson());
-	obj.insert(devicesTag, arr);
-	QJsonDocument doc;
-	doc.setObject(obj);
-	File.write(doc.toJson());
-	File.close();
-	return true;
 }
 
 bool DataProcessor::saveDocs() const

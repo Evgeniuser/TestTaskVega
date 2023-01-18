@@ -18,9 +18,10 @@ public:
 	void fillStageModel(const int& devId) const;
 	void updateDocModel(const int& devId, const int& stageNum) const;
 
-	void addDoc(int devId, int stageNum, int typeDoc, QString doc);
+	void addDoc(int devId, int stageNum, int typeDoc, QString docName, QString docPath);
+	void editDoc(int devId, int stageNum, int docId, QString docName, QString filePath);
 	void removeDoc(int idDev, int stageNum, int docId);
-
+	void getDocInfo(const int& id, QString& docName, QString& filePath) const;
 	StageModel* getStageModel() const { return m_StageModel; }
 	StageModel* getManualModel() const { return m_ManualModel; }
 	StageModel* getFirmwareModel() const { return m_FirmwareModel; }
@@ -32,7 +33,6 @@ private:
 	bool loadDocs();
 	bool loadDSDC();
 
-	bool saveDevice() const;
 	bool saveDocs() const;
 	bool saveDDS() const;
 	Device getDevice(const int& id) const;

@@ -86,5 +86,19 @@ void DataStorage::removeDoc(int devId, int stageNum, int docId)
 
 void DataStorage::updateDoc(int id, Doc doc)
 {
-	m_Docs[id] = doc;
+	m_Docs.insert(id,doc);
+}
+
+void DataStorage::updateDoc(int id, QString docName, QString filePath)
+{
+	auto doc = m_Docs.value(id);
+	doc.updateData(docName, filePath);
+	m_Docs.insert(id, doc);
+}
+
+void DataStorage::getDocInfo(const int& id, QString& docName, QString& filePath) const
+{
+	const auto doc = m_Docs.value(id);
+	docName = doc.name();
+	filePath = doc.filePath();
 }

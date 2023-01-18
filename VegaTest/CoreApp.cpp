@@ -71,3 +71,4 @@ void CoreApp::readParam(QWidget* w)
 			w->setWindowState(Qt::WindowMaximized);
 	}
 }
+
