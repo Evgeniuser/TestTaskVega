@@ -76,7 +76,7 @@ public:
 	{
 		QJsonObject Object;
 		Object.insert(idTag, QJsonValue(id()));
-		Object.insert(nameTag, QJsonValue(name()));
+		Object.insert(docNameTag, QJsonValue(name()));
 		Object.insert(docPathTag, QJsonValue(filePath()));
 		Object.insert(docTypeTag, QJsonValue(docType()));
 		return Object;
@@ -89,12 +89,28 @@ private:
 struct DDS
 {
 public:
+	DDS() = default;
 	DDS(const int devId, const QMap<int, QList<int>> stgDocList) : m_devId(devId), m_stgDocList(stgDocList){}
-	QList<int> getDocList(const int stageId) const { return m_stgDocList.value(stageId); }
-	void addDoc(const int stageId, const int docId) { }
-	QJsonObject toJson() const
+	const int& getDevId() const { return m_devId; }
+	QList<int> getDocIdList(const int stageId) const
 	{
-		QJsonObject obj;
+		return m_stgDocList.value(stageId);
+	}
+	void addDoc(const int stageId, const int docId)
+	{
+		auto lst = m_stgDocList[stageId];
+		lst.append(docId);
+		m_stgDocList[stageId] = lst;
+	}
+	void removeDoc(const int stageId, const int docId)
+	{
+		auto lst = m_stgDocList[stageId];
+		lst.removeOne(docId);
+		if (lst.isEmpty()) m_stgDocList.remove(stageId);
+		else m_stgDocList[stageId] = lst;
+	}
+	QJsonArray toJson() const
+	{
 		QJsonArray arr;
 		for(auto key : m_stgDocList.keys())
 		{
@@ -105,13 +121,10 @@ public:
 			stgObj.insert(docListTag, QJsonValue(docArr));
 			arr.append(QJsonValue(stgObj));
 		}
-		obj.insert(QString::number(devId()), QJsonValue(arr));
-
-		return obj;
+		return arr;
 	}
 private:
 	int devId() const { return m_devId; }
-
 	int m_devId;
 	QMap<int, QList<int>> m_stgDocList{};
 };
@@ -123,4 +136,4 @@ typedef QMap<Id, Doc> DocMap;
 typedef QList<Doc> DocList;
 typedef int DeviceId;
 typedef int StageNum;
-typedef QMap<DeviceId, QMap<StageNum,QList<int>>> DeviceStageDocConnect;
+typedef QMap<DeviceId, DDS> DeviceStageDocConnect;

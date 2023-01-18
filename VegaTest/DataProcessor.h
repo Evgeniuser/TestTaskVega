@@ -34,7 +34,7 @@ private:
 
 	bool saveDevice() const;
 	bool saveDocs() const;
-
+	bool saveDDS() const;
 	Device getDevice(const int& id) const;
 	QMap<int, QString> getStageList(const int& id) const;
 

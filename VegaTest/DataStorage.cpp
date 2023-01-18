@@ -51,41 +51,37 @@ QMap<int, QString> DataStorage::getStagesList(const int& id) const
 
 DocList DataStorage::getDocList(const int& DeviceId, const int& StageNum) const
 {
-	auto lst = m_DSDC.value(DeviceId).value(StageNum);
+	auto docIdLst = m_DSDC.value(DeviceId).getDocIdList(StageNum);
 	DocList docLst{};
-	for (auto id : lst) docLst.append(m_Docs.value(id));
+	for (auto id : docIdLst) docLst.append(m_Docs.value(id));
 	return docLst;
 }
 
 void DataStorage::addDoc(int Id, Doc doc)
 {
 	m_Docs.insert(Id, doc);
+	updateFreeId();
 }
 
-void DataStorage::addDevDoc(int devId, int stageNum, QList<int> docs)
+void DataStorage::addDevDoc(int devId, DDS dds)
 {
-	auto stMap = m_DSDC.value(devId);
-	stMap.insert(stageNum, docs);
-	m_DSDC.insert(devId, stMap);
+	m_DSDC.insert(devId, dds);
 }
 
 void DataStorage::addDevDoc(int devId, int stageNum, int docs)
 {
-	auto stMap = m_DSDC.value(devId);
-	auto lst = stMap.value(stageNum);
-	lst.append(docs);
-	stMap.insert(stageNum, lst);
-	m_DSDC.insert(devId, stMap);
+	auto dsdc = m_DSDC.value(devId);
+	dsdc.addDoc(stageNum, docs);
+	m_DSDC.insert(devId, dsdc);
 }
 
 void DataStorage::removeDoc(int devId, int stageNum, int docId)
 {
 	m_Docs.remove(docId);
-	auto stMap = m_DSDC.value(devId);
-	auto docLst = stMap.value(stageNum);
-	docLst.removeOne(docId);
-	stMap[stageNum] = docLst;
-	m_DSDC[devId] = stMap;
+	auto dsdc = m_DSDC.value(devId);
+	dsdc.removeDoc(stageNum,docId);
+	m_DSDC.insert(devId, dsdc);
+	updateFreeId();
 }
 
 void DataStorage::updateDoc(int id, Doc doc)

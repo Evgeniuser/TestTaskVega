@@ -14,6 +14,7 @@ DataProcessor::DataProcessor()
 DataProcessor::~DataProcessor()
 {
 	saveDocs();
+	saveDDS();
 }
 
 void DataProcessor::initModels()
@@ -37,7 +38,7 @@ bool DataProcessor::loadDevicesList()
 	const auto docJson = openFile(CoreApp::app()->deviceFilePath());
 	const auto deviceFile = docJson.second.object();
 	auto array = deviceFile.value(devicesTag).toArray();
-	for(auto item : array)
+	for (auto item : array)
 	{
 		const auto obj = item.toObject();
 		auto dev = Device(obj.value(idTag).toInt(), obj.value(nameTag).toString(), obj.value(snTag).toString());
@@ -66,12 +67,12 @@ bool DataProcessor::loadDocs()
 {
 	const auto docJson = openFile(CoreApp::app()->docFilePath());
 	const auto docLst = docJson.second.array();
-	for(auto itm : docLst)
+	for (auto itm : docLst)
 	{
 		auto docObj = itm.toObject();
-		Doc doc(docObj.value(idTag).toInt(), 
-				docObj.value(docNameTag).toString(), 
-			docObj.value(docPathTag).toString(), 
+		Doc doc(docObj.value(idTag).toInt(),
+			docObj.value(docNameTag).toString(),
+			docObj.value(docPathTag).toString(),
 			docObj.value(docTypeTag).toInt());
 		m_Storage.addDoc(docObj.value(idTag).toInt(), doc);
 	}
@@ -79,19 +80,22 @@ bool DataProcessor::loadDocs()
 }
 
 bool DataProcessor::loadDSDC()
-{	
+{
 	const auto docJson = openFile(CoreApp::app()->DDSFilePath());
 	const auto docMap = docJson.second.object();
-	for(auto key : docMap.keys())
+	for (auto key : docMap.keys())
 	{
 		auto docLst = docMap.value(key).toArray();
-		for(auto itm : docLst)
+		QMap<int, QList<int>> ddsMap;
+		for (auto itm : docLst)
 		{
 			QList<int> docList{};
-			for(auto _doc : itm.toObject().value(docListTag).toArray()) docList.append(_doc.toInt());
+			for (auto _doc : itm.toObject().value(docListTag).toArray()) docList.append(_doc.toInt());
 			const auto stageNum = itm.toObject().value(stageTag).toInt();
-			m_Storage.addDevDoc(key.toInt(),stageNum,docList);
+			ddsMap.insert(stageNum, docList);
 		}
+		DDS dds(key.toInt(), ddsMap);
+		m_Storage.addDevDoc(key.toInt(), dds);
 	}
 	return true;
 }
@@ -117,9 +121,9 @@ void DataProcessor::fillStageModel(const int& devId) const
 {
 	m_StageModel->clear();
 	auto lst = getStageList(devId);
-	for(auto itm : lst.keys())
+	for (auto itm : lst.keys())
 	{
-		m_StageModel->addValue(lst.value(itm),itm);
+		m_StageModel->addValue(lst.value(itm), itm);
 	}
 }
 
@@ -128,7 +132,7 @@ void DataProcessor::updateDocModel(const int& devId, const int& stageNum) const
 	m_FirmwareModel->clear();
 	m_ManualModel->clear();
 	auto lst = m_Storage.getDocList(devId, stageNum);
-	for(auto itm : lst)
+	for (auto itm : lst)
 	{
 		if (itm.docType() == 1)
 			m_ManualModel->addValue(itm.name(), itm.id());
@@ -138,7 +142,7 @@ void DataProcessor::updateDocModel(const int& devId, const int& stageNum) const
 
 }
 
-void DataProcessor::addDoc(int devId, int stageNum,int docType, QString doc)
+void DataProcessor::addDoc(int devId, int stageNum, int docType, QString doc)
 {
 	Doc _doc = Doc(m_Storage.getDocId(), doc + QString::number(devId), "", docType);
 	m_Storage.addDoc(_doc.id(), _doc);
@@ -154,7 +158,7 @@ void DataProcessor::removeDoc(int idDev, int stageNum, int docId)
 
 QPair<QJsonParseError, QJsonDocument> DataProcessor::openFile(const QString& fileName) const
 {
-	if(QFile::exists(fileName))
+	if (QFile::exists(fileName))
 	{
 		QFile File(fileName);
 		File.open(QIODevice::ReadOnly);
@@ -164,7 +168,7 @@ QPair<QJsonParseError, QJsonDocument> DataProcessor::openFile(const QString& fil
 		QJsonDocument doc(QJsonDocument::fromJson(Data, &error));
 		return QPair<QJsonParseError, QJsonDocument>{error, doc};
 	}
-	return QPair<QJsonParseError, QJsonDocument>{QJsonParseError{},QJsonDocument{}};
+	return QPair<QJsonParseError, QJsonDocument>{QJsonParseError{}, QJsonDocument{}};
 }
 
 bool DataProcessor::saveDevice() const
@@ -173,7 +177,7 @@ bool DataProcessor::saveDevice() const
 	File.open(QIODevice::ReadWrite);
 	QJsonObject obj;
 	QJsonArray arr;
-	for(auto& itm : getDeviceList()) arr.append(itm.toJson());
+	for (auto& itm : getDeviceList()) arr.append(itm.toJson());
 	obj.insert(devicesTag, arr);
 	QJsonDocument doc;
 	doc.setObject(obj);
@@ -185,11 +189,27 @@ bool DataProcessor::saveDevice() const
 bool DataProcessor::saveDocs() const
 {
 	QFile File(CoreApp::app()->docFilePath());
-	File.open(QIODevice::ReadWrite);
+	File.open(QIODevice::WriteOnly);
 	QJsonArray arr;
 	for (auto& itm : m_Storage.getDocs()) arr.append(itm.toJson());
 	QJsonDocument doc;
 	doc.setArray(arr);
+	File.write(doc.toJson());
+	File.close();
+	return true;
+}
+
+bool DataProcessor::saveDDS() const
+{
+	QFile File(CoreApp::app()->DDSFilePath());
+	File.open(QIODevice::ReadWrite);
+	QJsonObject obj;
+	for(auto itm : m_Storage.getDDSList())
+	{
+		obj.insert(QString::number(itm.getDevId()), itm.toJson());
+	}
+	QJsonDocument doc;
+	doc.setObject(obj);
 	File.write(doc.toJson());
 	File.close();
 	return true;
