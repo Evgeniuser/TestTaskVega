@@ -31,8 +31,8 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
-    <QtInstall>5.15.2_msvc2019_32</QtInstall>
-    <QtModules>core;sql;gui;widgets</QtModules>
+    <QtInstall>5.9.8_msvc2015</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
